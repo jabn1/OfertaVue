@@ -4,6 +4,8 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 .vscode
 oferta.sqlite
+Vue
+css
 
 # User-specific files
 *.rsuser
