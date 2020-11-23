@@ -12,7 +12,7 @@ namespace API.Controllers
     public class OfertaController : ControllerBase
     {
         [HttpPost("oferta")]
-        public ActionResult CreateOferta([FromBody] string[] html,[FromQuery] int idTrimestre,[FromQuery] int año)
+        public ActionResult<List<Trimestre>> CreateOferta([FromBody] string[] html,[FromQuery] int idTrimestre,[FromQuery] int año)
         {
             List<Seccion> secciones = null;
             var trimestre = new Trimestre { IdTrimestre = idTrimestre, Año = año };
@@ -27,7 +27,7 @@ namespace API.Controllers
             }
             if (SeccionDB.SaveSecciones(secciones, trimestre))
             {
-                return Ok();
+                return GetTrimestres();
             }
             else
             {
@@ -36,7 +36,7 @@ namespace API.Controllers
         }
 
         [HttpGet("oferta")]
-        public ActionResult<dynamic> GetOferta([FromQuery] int id)
+        public ActionResult<OfertaDTO> GetOferta([FromQuery] int id)
         {
             var oferta = new OfertaDTO();
             var secciones = SeccionDB.GetSecciones(id);

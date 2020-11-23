@@ -1,5 +1,6 @@
 import { html } from './tag.js'
 const Disponibilidad = Vue.component('disponibilidad', {
+    props: ['disponibilidad'],
     data () {
         return {
 

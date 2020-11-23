@@ -1,3 +1,4 @@
+import { html } from './tag.js'
 import Sidebar from './sidebar.js'
 import VerOferta from './ver-oferta.js'
 import Disponibilidad from './disponibilidad.js'
@@ -18,7 +19,78 @@ export var app = new Vue({
     router: new VueRouter({routes}),
     data () {
         return {
-
+            trimestres: null,
+            trimestre: null,
+            secciones: null,
+            disponibilidad: null,
+            loading: false,
+            errored: false,
+            changes: false
+        }
+    },
+    template: html`
+        <v-app>
+            <v-row>
+                <v-col cols="2" class="mr-15">
+                    <sidebar :trimestre="trimestre"></sidebar>
+                </v-col>
+                <v-col>
+                    <v-main>
+                        <router-view :trimestres="trimestres"></router-view>
+                    </v-main>
+                </v-col>
+            </v-row>
+        </v-app>`,
+    methods: {
+        getTrimestres () {
+            axios
+            .get('http://localhost:5000/api/oferta/trimestres')
+            .then(response => {
+              this.trimestres = response.data
+              this.changes = false
+            })
+            .catch(error => {
+              console.log(error)
+              this.trimestres = null
+              this.errored = true
+            })
+            .finally(() => {
+              this.loading = false
+            })
+        },
+        getOferta (id) {
+            axios
+            .get('http://localhost:5000/api/oferta/oferta?id=' + id)
+            .then(response => {
+              this.secciones = response.data.secciones
+              this.disponibilidad = response.data.disponibilidad
+            })
+            .catch(error => {
+              console.log(error)
+              this.secciones = null
+              this.disponibilidad = null
+              this.errored = true
+            })
+            .finally(() => {
+              this.loading = false
+            })
+        },
+        createOferta (html, idTrimestre, año) {
+            axios
+            .post('http://localhost:5000/api/oferta/oferta?idtrimestre='
+                + idTrimestre + '&año=' + año,{html: html})
+            .then(response => {
+              if (response.status === 200) {
+                this.trimestres = response.data
+              }
+            })
+            .catch(error => {
+              console.log(error)
+              this.errored = true
+            })
+            .finally(() => {
+              this.loading = false
+            })
         }
     }
 })
