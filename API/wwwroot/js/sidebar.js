@@ -12,7 +12,7 @@ const Sidebar = Vue.component('sidebar', {
         }
     },
     template: html`
-        <v-navigation-drawer absolute permanent left>
+        <v-navigation-drawer absolute permanent left style="max-width: 200px">
             <v-list-item>
             <v-list-item-content>
                 <v-list-item-title class="title">
@@ -20,11 +20,11 @@ const Sidebar = Vue.component('sidebar', {
                 </v-list-item-title>
                 <v-list-item-subtitle>
                     <div v-if="trimestre === null">
-                        Trimestre: sin seleccionar <br><br>
+                        Trimestre: sin seleccionar <br><br><br>
                     </div>
                     <div v-else>
                         Trimestre: <br>
-                        {{trimestre.meses}} {{trimestre.año}} (ID:{{trimestre.idOferta}})
+                        {{trimestre.meses}} {{trimestre.año}}<br>(ID:{{trimestre.idOferta}})
                     </div>
                 </v-list-item-subtitle>
             </v-list-item-content>

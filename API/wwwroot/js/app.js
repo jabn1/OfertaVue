@@ -10,7 +10,7 @@ const routes = [
     { path: '/disponibilidad', component: Disponibilidad},
     { path: '/cargar', component: CargarOferta},
     { path: '/elegir', component: ElegirOferta},
-    { path: '*', component: VerOferta}
+    { path: '*', component: ElegirOferta}
 ]
 
 export var app = new Vue({
@@ -31,10 +31,10 @@ export var app = new Vue({
     template: html`
         <v-app>
             <v-row>
-                <v-col cols="2" class="mr-15">
+                <v-col style="max-width: 220px !important;" >
                     <sidebar :trimestre="trimestre"></sidebar>
                 </v-col>
-                <v-col>
+                <v-col class="pr-7">
                     <v-main>
                         <router-view :trimestres="trimestres"></router-view>
                     </v-main>

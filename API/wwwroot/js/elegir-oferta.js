@@ -49,6 +49,7 @@ const ElegirOferta = Vue.component('elegir-oferta', {
     methods: {
         setTrimestre (trimestre) {
             this.$root.trimestre = trimestre
+            this.$root.getOferta(trimestre.idOferta)
         }
     }
 
