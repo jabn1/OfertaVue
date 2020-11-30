@@ -12,7 +12,7 @@ const Sidebar = Vue.component('sidebar', {
         }
     },
     template: html`
-        <v-navigation-drawer absolute permanent left style="max-width: 200px">
+        <v-navigation-drawer permanent fixed left style="max-width: 200px">
             <v-list-item>
             <v-list-item-content>
                 <v-list-item-title class="title">

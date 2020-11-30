@@ -27,27 +27,42 @@ const VerOferta = Vue.component('ver-oferta', {
               ]
         }
     },
+    methods: {
+        customFilter(item,search){
+            if (!search) { return item }
+            let words = search.toString().toUpperCase().split('&').filter(w => w !== '')
+            let all = true
+            words.forEach(function(word) {
+                if(!item.toUpperCase().includes(word)) {
+                    all = false
+                }
+            })
+            if (all) {return item}
+            else {return ''}
+        }
+    },
     template: html`
         <div v-if="$root.secciones === null">
             <h3 class=" text-center">Debe primero seleccionar un trimestre.</h3>
         </div>
         <div v-else>
             <v-text-field
+            style="width: 350px;"
             v-model="search"
             append-icon="mdi-magnify"
-            label="Search"
+            label="Buscar"
             single-line
             hide-details
             ></v-text-field>
             <v-data-table
             dense
             :headers="headers"
-            :items="$root.secciones"
-            :items-per-page="5"
+            :items="this.$root.secciones"
             :search="search"
+            :custom-filter="customFilter"
             class="elevation-1"
             :footer-props="{
-                itemsPerPageOptions:[10,20,30,40,-1]
+                itemsPerPageOptions:[15,20,30,40]
               }"
             ></v-data-table>
         </div>
