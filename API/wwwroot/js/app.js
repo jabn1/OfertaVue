@@ -32,11 +32,11 @@ export var app = new Vue({
         <v-app>
             <v-row>
                 <v-col style="max-width: 220px !important;" >
-                    <sidebar :trimestre="trimestre"></sidebar>
+                    <sidebar></sidebar>
                 </v-col>
                 <v-col class="pr-7">
                     <v-main>
-                        <router-view :trimestres="trimestres"></router-view>
+                        <router-view></router-view>
                     </v-main>
                 </v-col>
             </v-row>

@@ -1,13 +1,12 @@
 import { html } from './tag.js'
 const ElegirOferta = Vue.component('elegir-oferta', {
-    props: ['trimestres'],
     data () {
         return {
 
         }
     },
     template: html`
-        <div v-if="trimestres === null">
+        <div v-if="$root.trimestres === null">
             Hubo un error cargando esta pagina.
         </div>
         <div v-else style="max-width: 400px">
@@ -28,7 +27,7 @@ const ElegirOferta = Vue.component('elegir-oferta', {
                 </thead>
                 <tbody>
                     <tr
-                    v-for="trimestre in trimestres"
+                    v-for="trimestre in $root.trimestres"
                     :key="trimestre.idOferta"
                     v-on:click="setTrimestre(trimestre)"
                     style="cursor: pointer;"
@@ -42,7 +41,7 @@ const ElegirOferta = Vue.component('elegir-oferta', {
             </v-simple-table>
         </div>`,
     created: function () {
-        if (this.trimestres === null) {
+        if (this.$root.trimestres === null) {
             this.$root.getTrimestres()
         }
     },

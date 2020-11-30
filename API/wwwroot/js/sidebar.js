@@ -1,6 +1,5 @@
 import { html } from './tag.js'
 const Sidebar = Vue.component('sidebar', {
-    props: ['trimestre'],
     data () {
         return {
             items: [
@@ -19,12 +18,12 @@ const Sidebar = Vue.component('sidebar', {
                 Oferta
                 </v-list-item-title>
                 <v-list-item-subtitle>
-                    <div v-if="trimestre === null">
+                    <div v-if="$root.trimestre === null">
                         Trimestre: sin seleccionar <br><br><br>
                     </div>
                     <div v-else>
                         Trimestre: <br>
-                        {{trimestre.meses}} {{trimestre.año}}<br>(ID:{{trimestre.idOferta}})
+                        {{this.$root.trimestre.meses}} {{this.$root.trimestre.año}}<br>(ID:{{this.$root.trimestre.idOferta}})
                     </div>
                 </v-list-item-subtitle>
             </v-list-item-content>

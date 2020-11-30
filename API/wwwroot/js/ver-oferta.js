@@ -57,7 +57,7 @@ const VerOferta = Vue.component('ver-oferta', {
             <v-data-table
             dense
             :headers="headers"
-            :items="this.$root.secciones"
+            :items="$root.secciones"
             :search="search"
             :custom-filter="customFilter"
             class="elevation-1"
