@@ -10,7 +10,7 @@ namespace Infrastructure
 {
     public class HtmlParser
     {
-        public static List<Seccion> HtmlParse(string[] html)
+        public static List<Seccion> HtmlParse(List<string> html)
         {
 
             var data = new List<string>();

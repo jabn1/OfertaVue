@@ -4,6 +4,9 @@ using Core;
 using Infrastructure;
 using System;
 using Microsoft.AspNetCore.Http;
+using System.IO;
+using System.Threading.Tasks;
+using System.Text;
 
 namespace API.Controllers
 {
@@ -12,8 +15,56 @@ namespace API.Controllers
     public class OfertaController : ControllerBase
     {
         [HttpPost("oferta")]
-        public ActionResult<List<Trimestre>> CreateOferta([FromBody] string[] html,[FromQuery] int idTrimestre,[FromQuery] int año)
+        public async Task<ActionResult<List<Trimestre>>> CreateOferta(int idTrimestre, int año)
         {
+            if (!Request.ContentType.Contains("multipart/form-data"))
+            {
+                Console.WriteLine("Invalid content format, must be multipart/form-data");
+                return BadRequest("Invalid content format, must be multipart/form-data");
+            }
+            if (idTrimestre == 0 || año == 0)
+            {
+                Console.WriteLine("Missing parameters año or trimestre");
+                return BadRequest("Missing parameters año or trimestre");
+            }
+            if (Request.Form.Files.Count != 1)
+            {
+                Console.WriteLine("Exactly one file is needed.");
+                return BadRequest("Exactly one file is needed.");
+            }
+            var file = Request.Form.Files[0];
+
+            if (file == null || file.ContentType != "text/html")
+            {
+                return BadRequest("Wrong file extension.");
+            }
+            var html = new List<string>();
+            try
+            {
+                var streamTemp = file.OpenReadStream();
+
+                using (var stream = new MemoryStream())
+                {
+                    await streamTemp.CopyToAsync(stream);
+                    stream.Position = 0;
+
+                    using (var reader = new StreamReader(stream, Encoding.UTF8))
+                    {
+                        string line;
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            html.Add(line);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error while reading file: {e}");
+                return BadRequest("Error while reading file.");
+            }
+
+
             List<Seccion> secciones = null;
             var trimestre = new Trimestre { IdTrimestre = idTrimestre, Año = año };
             try
@@ -36,7 +87,7 @@ namespace API.Controllers
         }
 
         [HttpGet("oferta")]
-        public ActionResult<OfertaDTO> GetOferta([FromQuery] int id)
+        public ActionResult<OfertaDTO> GetOferta(int id)
         {
             var oferta = new OfertaDTO();
             var secciones = SeccionDB.GetSecciones(id);
