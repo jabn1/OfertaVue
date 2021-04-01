@@ -84,7 +84,10 @@ const Disponibilidad = Vue.component('disponibilidad', {
         }
     },
     template: html`
-        <div>
+        <div v-if="$root.secciones === null">
+            <h3 class=" text-center">Debe primero seleccionar un trimestre.</h3>
+        </div>
+        <div v-else>
             <v-menu
             top
             >

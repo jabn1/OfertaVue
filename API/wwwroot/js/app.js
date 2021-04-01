@@ -25,7 +25,8 @@ export var app = new Vue({
             disponibilidad: null,
             loading: false,
             errored: false,
-            changes: false
+            changes: false,
+            file: []
         }
     },
     template: html`
@@ -75,13 +76,20 @@ export var app = new Vue({
               this.loading = false
             })
         },
-        createOferta (html, idTrimestre, año) {
-            axios
+        createOferta (idTrimestre, año) {
+          var formData = new FormData();
+          
+          formData.append("file", this.file);  
+          axios
             .post('http://localhost:5000/api/oferta/oferta?idtrimestre='
-                + idTrimestre + '&año=' + año,{html: html})
+                + idTrimestre + '&año=' + año,formData,{
+                  headers: {
+                    'Content-Type': 'multipart/form-data'
+                  }})
             .then(response => {
               if (response.status === 200) {
                 this.trimestres = response.data
+                this.$router.push('elegir')
               }
             })
             .catch(error => {
@@ -90,6 +98,7 @@ export var app = new Vue({
             })
             .finally(() => {
               this.loading = false
+              this.file = []
             })
         }
     }
