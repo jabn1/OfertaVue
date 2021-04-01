@@ -10,10 +10,7 @@ const CargarOferta = Vue.component('cargar-oferta', {
                 {text: 'Noviembre - Enero', id: '4'}
             ],
             selectAño: null,
-            itemsAño: [
-                2019,2020,2021
-            ],
-            dialog: false
+            itemsAño: this.getYears()
         }
     },
     template: html`
@@ -34,7 +31,7 @@ const CargarOferta = Vue.component('cargar-oferta', {
             outlined
             dense
         ></v-select>
-        <v-file-input 
+        <v-file-input
             v-model="$root.file"
             truncate-length="100"
             accept="text/html"
@@ -75,7 +72,15 @@ const CargarOferta = Vue.component('cargar-oferta', {
             if(this.$root.file.length != 1){
                 this.$root.createOferta(this.selectTrimestre, this.selectAño)
             }
-                
+        },
+        getYears(){
+          const date = new Date()
+          const year = date.getFullYear()
+          let years = []
+          for (let index = 2018; index <= year; index++) {
+            years.push(index)
+          }
+          return years;
         }
     }
   })
